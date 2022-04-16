@@ -1,0 +1,44 @@
+.container {
+  max-width: 31.25rem;
+  margin: auto;
+  color: #444;
+  padding: 1rem;
+}
+
+.container h2 {
+  text-transform: uppercase;
+  font-size: 2rem;
+  margin: 1.25rem 0;
+  letter-spacing: 1.5px;
+}
+
+.container input {
+  width: 100%;
+  height: 3rem;
+  margin: 1rem 0;
+  padding: 0 1rem;
+  border: 2px solid #777;
+  outline: none;
+  border-radius: 0.25rem;
+}
+
+.container label {
+  display: block;
+}
+
+.container .action {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.container .action button {
+  width: 9.375rem;
+  font-weight: 600;
+  padding: 0.5rem 0;
+  font-size: 1.25rem;
+}
+
+.container .action a {
+  color: #5056c9;
+}

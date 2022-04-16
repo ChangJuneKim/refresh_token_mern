@@ -1,0 +1,45 @@
+.header {
+  width: 100%;
+  min-height: 6.25rem;
+  background: #4e54c8; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #8f94fb, #4e54c8); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #8f94fb,
+    #4e54c8
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+}
+
+.header a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #eee;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.nav a svg {
+  margin-right: 0.5rem;
+}
+
+.nav li {
+  display: inline-block;
+  padding: 0.625rem 1.25rem;
+}
+
+.nav li a {
+  font-weight: 600;
+  opacity: 0.7;
+}
+
+.nav li a:hover,
+.nav li a:active,
+.nav li a.active {
+  opacity: 1;
+}

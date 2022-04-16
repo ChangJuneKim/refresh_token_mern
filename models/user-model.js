@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import validator from 'validator';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
 
 const UserSchema = new mongoose.Schema(
   {
@@ -37,6 +38,8 @@ const UserSchema = new mongoose.Schema(
       type: String,
       default: 'https://res.cloudinary.com/windows6-cloud/image/upload/v1649666473/default_avatar_ethcfy.jpg',
     },
+    resetPasswordToken: String,
+    resetPasswordExpire: Date,
   },
   {
     timestamps: true,
@@ -54,42 +57,30 @@ UserSchema.pre('save', async function (next) {
   next();
 });
 
-UserSchema.methods.createToken = function (payload, secret) {
-  //openssl rand -hex 64
-  switch (secret) {
-    case process.env.ACTIVATION_TOKEN_SECRET: {
-      return jwt.sign(payload, process.env.ACTIVATION_TOKEN_SECRET, {
-        expiresIn: process.env.ACTIVATION_TOKEN_LIFETIME,
-      });
-    }
-
-    case process.env.ACCESS_TOKEN_SECRET: {
-      return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: process.env.ACCESS_TOKEN_LIFETIME,
-      });
-    }
-
-    case process.env.REFRESH_TOKEN_SECRET: {
-      return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
-        expiresIn: process.env.REFRESH_TOKEN_LIFETIME,
-      });
-    }
-
-    default:
-      throw new Error();
+UserSchema.methods.isValidId = function (_id) {
+  console.log(1);
+  if (!mongoose.Types.ObjectId.isValid(this._id)) {
+    return false;
   }
+  return true;
 };
 
-UserSchema.methods.createAccessToken = function () {
-  return jwt.sign({ userID: this._id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_LIFETIME,
-  });
+UserSchema.methods.comparePassword = async function (password) {
+  return await bcrypt.compare(password, this.password);
 };
 
-UserSchema.methods.createRefreshToken = function () {
-  return jwt.sign({ userID: this._id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_LIFETIME,
-  });
+UserSchema.methods.getResetPasswordToken = function () {
+  // 공개키
+  const resetToken = crypto.randomBytes(20).toString('hex');
+
+  this.resetPasswordToken = crypto // 토큰 해쉬 (private key), DB에 저장
+    .createHash('sha256')
+    .update(resetToken)
+    .digest('hex');
+
+  this.resetPasswordExpire = Date.now() + 10 * (60 * 1000); // 10분
+
+  return resetToken;
 };
 
 export default mongoose.model('User', UserSchema);

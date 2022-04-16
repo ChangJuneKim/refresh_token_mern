@@ -1,0 +1,65 @@
+#show {
+  visibility: visible;
+  animation: fadein 500ms, fadeout 500ms 2.6s;
+}
+
+#hide {
+  visibility: hidden;
+}
+
+.snackbar {
+  position: fixed;
+  left: 50%;
+  top: 5%;
+  transform: translate(-50%, -50%);
+  min-width: 21.875rem;
+  height: 3.75rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #000;
+}
+
+.symbol h1 {
+  flex: 20%;
+  display: flex;
+  margin: 0 0.5rem;
+}
+
+.message {
+  flex: 80%;
+  text-align: start;
+  font-weight: bold;
+}
+
+.snackbar.success {
+  background-color: #00f593;
+}
+
+.snackbar.fail {
+  background-color: #ff0033;
+}
+
+@keyframes fadein {
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
+}
+
+@keyframes fadeout {
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
+  to {
+    bottom: 0;
+    opacity: 0;
+  }
+}

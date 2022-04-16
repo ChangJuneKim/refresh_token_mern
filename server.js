@@ -7,7 +7,7 @@ import fileUpload from 'express-fileupload';
 
 import connectDB from './db/connect.js';
 
-import userRouter from './routes/user-router.js';
+import { authRouter, userRouter } from './routes/index.js';
 
 import errorHandlerMiddleware from './middleware/error-handler-middleware.js';
 
@@ -24,6 +24,7 @@ app.use(
 );
 
 // Routes
+app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/user', userRouter);
 
 app.use(errorHandlerMiddleware);
@@ -35,7 +36,7 @@ const start = async () => {
     await connectDB(process.env.MONGO_URI);
     console.log('DB 연결됨');
     app.listen(PORT, () => {
-      console.log(`Server is listening on port ${PORT}...`);
+      console.log(`현재 앱이 http://localhost:${PORT}  에서 구동중입니다...`);
     });
   } catch (error) {
     console.log(error);
