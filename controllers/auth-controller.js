@@ -14,7 +14,7 @@ import createToken from '../utils/generate-token.js';
 export const register = asyncHandler(async (req, res) => {
   // console.log(req.body);
 
-  const { name, email, password } = req.body;
+  const { name, email, password, confirmPassword } = req.body;
 
   // 검증
   if (!name || !email || !password) {
@@ -33,6 +33,10 @@ export const register = asyncHandler(async (req, res) => {
 
   if (password.length < 6) {
     throw new BadRequestError('비밀번호는 최소 6자 이상이어야 합니다.');
+  }
+
+  if (password !== confirmPassword) {
+    throw new BadRequestError('비밀번호가 다릅니다');
   }
 
   const newUser = {
@@ -59,8 +63,9 @@ export const register = asyncHandler(async (req, res) => {
 
 // 실질적인 유저 DB 저장(가입완료)
 export const activateEmail = asyncHandler(async (req, res) => {
-  const { activationToken } = req.body;
-  const { name, email, password } = jwt.verify(activationToken, process.env.ACTIVATION_TOKEN_SECRET);
+  const { activation_token } = req.body;
+  console.log(activation_token);
+  const { name, email, password } = jwt.verify(activation_token, process.env.ACTIVATION_TOKEN_SECRET);
 
   const user = await User.findOne({ email });
 
@@ -103,11 +108,11 @@ export const login = asyncHandler(async (req, res) => {
 
   res.cookie('rftoken', refreshToken, {
     httpOnly: true,
-    path: '/user/refresh_token',
+    path: 'api/v1/auth/refresh_token',
     maxAge: 14 * 24 * 60 * 60 * 1000, // 14일
   });
 
-  res.json({ msg: 'login' });
+  res.json({ msg: '환영합니다!' });
 });
 
 export const getAccessToken = (req, res) => {
@@ -123,14 +128,13 @@ export const getAccessToken = (req, res) => {
     if (err) throw new UnAuthenticatedError('로그인 해주세요.');
 
     const accessToken = createToken({ id: user.id }, process.env.ACCESS_TOKEN_SECRET);
-    console.log(accessToken, '액');
 
     res.json({ accessToken });
   });
 };
 
 export const logout = asyncHandler(async (req, res) => {
-  res.clearCookie('rftoken', { path: '/user/refresh_token' });
+  res.clearCookie('rftoken', { path: 'api/v1/auth/refresh_token' });
 
   res.status(StatusCodes.OK).json({ msg: '로그아웃됨' });
 });

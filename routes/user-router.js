@@ -15,7 +15,7 @@ import authAdmin from '../middleware/admin-middleware.js';
 const router = express.Router();
 
 router.route('/forgotpassword').post(forgotPassword);
-router.route('/resetpassword/:resetToken').patch(auth, resetPassword);
+router.route('/resetpassword/:resetToken').patch(resetPassword);
 
 router.route('/info').get(auth, getUserInfo).patch(auth, updateUser);
 router.route('/info/:id').patch(auth, authAdmin, updateUserRole).delete(auth, authAdmin, deleteUser);

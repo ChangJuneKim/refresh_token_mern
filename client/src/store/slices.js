@@ -1,3 +1,4 @@
 import snackReducer from './snack-slice';
+import authReducer from './auth-slice';
 
-export { snackReducer };
+export { snackReducer, authReducer };

@@ -1,13 +1,7 @@
 .header {
   width: 100%;
-  min-height: 6.25rem;
-  background: #4e54c8; /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #8f94fb, #4e54c8); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(
-    to right,
-    #8f94fb,
-    #4e54c8
-  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  min-height: 5rem;
+  background-image: linear-gradient(to top, #30cfd0 0%, #330867 100%);
 
   display: flex;
   justify-content: space-between;
@@ -24,13 +18,28 @@
   letter-spacing: 1.5px;
 }
 
+.header ul li img {
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  margin-right: 0.25rem;
+}
+
+.nav ul {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  height: 5rem;
+}
+
 .nav a svg {
   margin-right: 0.5rem;
 }
 
-.nav li {
+.nav .nav-item {
   display: inline-block;
-  padding: 0.625rem 1.25rem;
+  padding: 1.7rem 1.25rem;
 }
 
 .nav li a {
@@ -42,4 +51,36 @@
 .nav li a:active,
 .nav li a.active {
   opacity: 1;
+}
+
+.drop-nav {
+  position: relative;
+  padding: 0.625rem 0;
+  opacity: 0.9;
+}
+
+.drop-nav a {
+  overflow: hidden;
+}
+
+.drop-nav .sub {
+  position: absolute;
+  background: #30cfd0;
+  width: calc(100% + 12px);
+  transform: translateY(27px);
+  display: none;
+}
+
+.drop-nav:hover .sub {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  opacity: 0.9;
+}
+
+@media screen and (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    justify-content: center;
+  }
 }
