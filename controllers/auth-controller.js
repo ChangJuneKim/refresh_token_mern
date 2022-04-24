@@ -49,16 +49,21 @@ export const register = asyncHandler(async (req, res) => {
 
   const url = `${process.env.CLIENT_URL}/auth/activate/${activationToken}`;
 
-  sendEmail({
-    to: email,
-    url,
-    subject: '가입 인증 이메일',
-    txt: '회원가입',
-  });
+  try {
+    sendEmail({
+      to: email,
+      url,
+      subject: '가입 인증 이메일',
+      txt: '회원가입',
+    });
 
-  res.status(StatusCodes.CREATED).json({
-    msg: '회원가입 완료를 위해 가입하신 이메일을 확인해주세요.',
-  });
+    res.status(StatusCodes.CREATED).json({
+      msg: '회원가입 완료를 위해 가입하신 이메일을 확인해주세요.',
+    });
+  } catch (error) {
+    console.log(err);
+    throw new Error(err);
+  }
 });
 
 // 실질적인 유저 DB 저장(가입완료)
